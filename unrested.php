@@ -46,7 +46,11 @@ class unrested {
 
 				$result = $function['function']($input);
 				http_response_code($result[0]);
-				echo json_encode($result[1]);
+				if(isset($_GET['pretty_print'])){
+					echo json_encode($result[1], JSON_PRETTY_PRINT);
+				}else{
+					echo json_encode($result[1]);
+				}
 				exit;
 			}
 		}
