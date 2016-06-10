@@ -35,9 +35,11 @@ class unrested {
 		foreach($this->registered_functions[$_SERVER['REQUEST_METHOD']] as $function){
 			$matches = array();
 			if(preg_match($function['identifier_regex'], $_SERVER['REQUEST_URI'], $matches)){
+				unset($matches[0]);
+				unset($matches[1]);
 
 				$http_body = file_get_contents('php://input');
-				$json = json_decode($http_body);
+				$json = json_decode($http_body, True);
 				if(!is_array($json)){
 					$json = array();
 				}
