@@ -35,9 +35,11 @@ class unrested {
 		foreach($this->registered_functions[$_SERVER['REQUEST_METHOD']] as $function){
 			$matches = array();
 			if(preg_match($function['identifier_regex'], $_SERVER['REQUEST_URI'], $matches)){
+				unset($matches[0]);
+				unset($matches[1]);
 
 				$http_body = file_get_contents('php://input');
-				$json = json_decode($http_body);
+				$json = json_decode($http_body, True);
 				if(!is_array($json)){
 					$json = array();
 				}
@@ -49,7 +51,11 @@ class unrested {
 					$result = array(500, $e);
 				}
 				http_response_code($result[0]);
-				echo json_encode($result[1]);
+				if(isset($_GET['pretty_print'])){
+					echo json_encode($result[1], JSON_PRETTY_PRINT);
+				}else{
+					echo json_encode($result[1]);
+				}
 				exit;
 			}
 		}
