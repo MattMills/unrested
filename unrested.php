@@ -43,8 +43,11 @@ class unrested {
 				}
 
 				$input = array_merge($_GET, $_POST, $json, $matches);
-
-				$result = $function['function']($input);
+				try{
+					$result = $function['function']($input);
+				}catch (Exception $e){
+					$result = array(500, $e);
+				}
 				http_response_code($result[0]);
 				echo json_encode($result[1]);
 				exit;
