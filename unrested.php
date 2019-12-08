@@ -43,7 +43,7 @@ class unrested {
 				if(!is_array($json)){
 					$json = array();
 				}
-				$matches = array_map(urldecode, $matches);
+				$matches = array_map('urldecode', $matches);
 				$input = array_merge($_GET, $_POST, $json, $matches);
 				try{
 					$result = $function['function']($input);
